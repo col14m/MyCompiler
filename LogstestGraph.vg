@@ -1,0 +1,20 @@
+digraph BinaryTreeNode {
+node [color = "green", fontname = "Calibri", fontsize = 12, shape = "rectangle", style = "filled", fillcolor = "#caff70"]; 
+
+BinaryTreeNode0x00C9F974
+[label = "BinaryTreeNode(ok) 
+	type_	: 3
+	data_[int] : 0
+	data_[str] : sin
+"];
+BinaryTreeNode0x00C9F974
+BinaryTreeNode0x00C9F974->BinaryTreeNode0x00066BE0
+
+BinaryTreeNode0x00066BE0
+[label = "BinaryTreeNode(ok) 
+	type_	: 2
+	data_[int] : 0
+	data_[str] : x
+"];
+BinaryTreeNode0x00066BE0
+}
