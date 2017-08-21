@@ -51,7 +51,7 @@ int main()
 	//LingAnaliz t;
 	//t.ParseTextAndConvertToArrayNodes(test);
 	//printf("%s", FileInBuf(".\\Logs\\test.txt"));
-	LingAnaliz analiz("while ( x < 2 ) //ahsjhaj");
+	LingAnaliz analiz("var a b c sfdgfgh ; while if else a b c cwudivci");
 	analiz.ParseTextAndConvertToArrayNodes();
 	analiz.Dump();
 	
