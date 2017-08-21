@@ -4,17 +4,21 @@
 #include <iostream>
 #include <vector>
 #include <string.h>
+#include <array>
 
 class LingAnaliz
 {
 public:
-	LingAnaliz();
+	LingAnaliz(char *text);
 	~LingAnaliz();
-	int ParseTextAndConvertToArrayNodes(char *text);
+	int ParseTextAndConvertToArrayNodes();
+	int ParseVariables();
 	int Dump();
 
 private:
 	std::vector <BinaryTreeNode> arrayNodes_;
+	std::vector <BinaryTreeNode> arrayVariables_;
+	char *copyText_;
 
 };
 
@@ -66,21 +70,25 @@ bool IsComparison(char *str)
 		return false;
 	}
 }
-LingAnaliz::LingAnaliz()
+LingAnaliz::LingAnaliz(char *text)
 {
+	assert(text);
+	size_t textLen = strnlen(text, 2048);
+	copyText_ = new char[textLen + 1];
+	strcpy(copyText_, text);
+
 }
 
 LingAnaliz::~LingAnaliz()
 {
+	delete copyText_;
+	copyText_ = NULL;
 }
 
-int LingAnaliz::ParseTextAndConvertToArrayNodes(char *text)
+int LingAnaliz::ParseTextAndConvertToArrayNodes()
 {
-	assert(text);
-	size_t textLen = strlen(text);
-	char *copyText = new char[textLen + 1];
-	strcpy(copyText, text);
-	char *pch = strtok(copyText, " \n\t");
+	
+	char *pch = strtok(copyText_, " \n\t");
 	
 	while (pch != NULL)                         
 	{
@@ -119,9 +127,14 @@ int LingAnaliz::ParseTextAndConvertToArrayNodes(char *text)
 			BinaryTreeNode tmp(NodeValue(IF, pch));
 			arrayNodes_.push_back(tmp);
 		}
+		else if (!strcmp(pch, "else"))
+		{
+			BinaryTreeNode tmp(NodeValue(ELSE, pch));
+			arrayNodes_.push_back(tmp);
+		}
 		else if (!strcmp(pch, "while"))
 		{
-			BinaryTreeNode tmp(NodeValue(WHILE, pch));
+			BinaryTreeNode tmp (NodeValue(WHILE, pch));
 			arrayNodes_.push_back(tmp);
 		}
 		else if (!strcmp(pch, "func"))
@@ -139,7 +152,7 @@ int LingAnaliz::ParseTextAndConvertToArrayNodes(char *text)
 			BinaryTreeNode tmp(NodeValue(COMMA, pch));
 			arrayNodes_.push_back(tmp);
 		}
-		else if (!strcmp(pch, "//"))
+		else if (pch[0] == '/' && pch[1] == '/')
 		{
 		}
 		else
@@ -151,13 +164,20 @@ int LingAnaliz::ParseTextAndConvertToArrayNodes(char *text)
 
 		pch = strtok(NULL, " \n\t");
 	}
-	delete copyText;
+	
 	return 0;
 }
 
+/*int LingAnaliz::ParseVariables()
+{
+	char *pch = strtok(copyText_, " \n\t");
+	while (pch != NULL || )
+	return 0;
+}*/
+
 inline int LingAnaliz::Dump()
 {
-	//printf("LingAnaliz [0x%p] {\n", this);
+	printf("LingAnaliz [0x%p] {\n", this);
 	for (auto &now : arrayNodes_)
 	{
 		now.Dump();

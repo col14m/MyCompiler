@@ -48,12 +48,16 @@ int main()
 	//t2.DumpToGraph("testGraph");
 	//printf("%d", IsComparison("fywufu843"));
 	//char *test = "x = 5 + 2 ; while ( x < 5 ) { x = x + 5 ; }";
-	LingAnaliz t;
+	//LingAnaliz t;
 	//t.ParseTextAndConvertToArrayNodes(test);
 	//printf("%s", FileInBuf(".\\Logs\\test.txt"));
-	LingAnaliz analiz;
-	analiz.ParseTextAndConvertToArrayNodes("while ( x < 2 ) //ahsjhaj");
+	LingAnaliz analiz("while ( x < 2 ) //ahsjhaj");
+	analiz.ParseTextAndConvertToArrayNodes();
 	analiz.Dump();
+	
+
+
+	
 	system("pause");
 	return 0;
 }

@@ -61,7 +61,10 @@ BinaryTreeNode::BinaryTreeNode(const NodeValue& object) :
 	data_(NodeValue(object))
 {}
 
-BinaryTreeNode::BinaryTreeNode(const BinaryTreeNode &node)
+BinaryTreeNode::BinaryTreeNode(const BinaryTreeNode &node) :
+	leftNode_(NULL),
+	rightNode_(NULL),
+	parentNode_(NULL)
 {
 	InsertLeft(node.HaveLeftChild() ? new BinaryTreeNode(*node.leftNode_) : NULL);
 	InsertRight(node.HaveRightChild() ? new BinaryTreeNode(*node.rightNode_) : NULL);
@@ -134,7 +137,7 @@ void BinaryTreeNode::Dump(FILE *log) const
 	//fprintf(log, "[0x%p] data_ : \n", &data_);
 	data_.Dump(log);
 	//fprintf(log, "[0x%p] leftNode\n", leftNode_);
-	fprintf(log, "\"", rightNode_);
+//	fprintf(log, "\"", rightNode_);
 	fprintf(log, "%s];\n", Ok() ? "" : ", color = \"red\", fillcolor = \"#ff7d7d\"");
 
 	fprintf(log, "BinaryTreeNode0x%p\n", this);
