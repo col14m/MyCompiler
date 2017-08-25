@@ -1,7 +1,8 @@
 #define _CRT_SECURE_NO_WARNINGS
-
+#define DEBUG
 #include "../Sources/BinaryTree.h"
 #include "../Sources/LingAnaliz.h"
+#include"../Sources/SyntaxAnaliz.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -9,6 +10,8 @@
 #include <io.h>
 #include <fcntl.h>
 #include <stdlib.h>
+
+
 
 char *FileInBuf(char* fileName)
 {
@@ -42,20 +45,25 @@ char *FileInBuf(char* fileName)
 int main()
 {
 	typedef BinaryTreeNode Node;
-	//Node t1(NodeValue(NUMBER, 2)), t2(NodeValue(OPERAND, "sin")), *t3 = new Node(NodeValue(VARIABLE, "x")), *t4 = new Node(NodeValue(VARIABLE, "x")), t5(NodeValue(NUMBER, 2));
-	//t2.InsertLeft(t4);
-	//t2.InsertRight(t3);
+	Node t1(NodeValue(NUMBER, 2)), t2(NodeValue(OPERAND, "sin")), *t3 = new Node(NodeValue(VARIABLE, "y")), *t4 = new Node(NodeValue(VARIABLE, "x")), t5(NodeValue(NUMBER, 2));
+	t2.InsertLeft(t4);
+	t2.InsertRight(t3);
 	//t2.DumpToGraph("testGraph");
 	//printf("%d", IsComparison("fywufu843"));
 	//char *test = "x = 5 + 2 ; while ( x < 5 ) { x = x + 5 ; }";
 	//LingAnaliz t;
 	//t.ParseTextAndConvertToArrayNodes(test);
 	//printf("%s", FileInBuf(".\\Logs\\test.txt"));
-	LingAnaliz analiz("var a b c sfdgfgh ; while if else a b c cwudivci");
+	LingAnaliz analiz("var a b c xyi ; ( a + 500 * 200 )");
 	analiz.ParseTextAndConvertToArrayNodes();
-	analiz.Dump();
+	//analiz.GetArrayNodes().push_back(Node (NodeValue(NUMBER, 345)));
+	//analiz.Dump();
+	SyntaxAnaliz anal;
+	anal.SetArrayTokens(analiz.GetArrayNodes());
+	anal.DumpTokens();
+	anal.Get0();
 	
-
+	anal.GetRoot()->DumpToGraph("testRoot2");
 
 	
 	system("pause");

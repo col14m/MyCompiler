@@ -113,6 +113,7 @@
     <ClInclude Include="Sources\BinaryTree.h" />
     <ClInclude Include="Sources\LingAnaliz.h" />
     <ClInclude Include="Sources\NodeValue.h" />
+    <ClInclude Include="Sources\SyntaxAnaliz.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tests\Main.cpp" />

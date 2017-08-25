@@ -1,29 +1,32 @@
 digraph BinaryTreeNode {
 node [color = "green", fontname = "Calibri", fontsize = 12, shape = "rectangle", style = "filled", fillcolor = "#caff70"]; 
 
-BinaryTreeNode0x010FF9EC
+BinaryTreeNode0x0075FE40
 [label = "BinaryTreeNode(ok) 
+NodeValue (ok) [0x0075FE4C] :
 	type_	: 3
 	data_[int] : 0
 	data_[str] : sin
 "];
-BinaryTreeNode0x010FF9EC
-BinaryTreeNode0x010FF9EC->BinaryTreeNode0x009F6F68
+BinaryTreeNode0x0075FE40
+BinaryTreeNode0x0075FE40->BinaryTreeNode0x001A6F28
 
-BinaryTreeNode0x009F6F68
+BinaryTreeNode0x001A6F28
 [label = "BinaryTreeNode(ok) 
+NodeValue (ok) [0x001A6F34] :
 	type_	: 2
 	data_[int] : 0
 	data_[str] : x
 "];
-BinaryTreeNode0x009F6F68
-BinaryTreeNode0x010FF9EC->BinaryTreeNode0x009F0568
+BinaryTreeNode0x001A6F28
+BinaryTreeNode0x0075FE40->BinaryTreeNode0x001A0568
 
-BinaryTreeNode0x009F0568
+BinaryTreeNode0x001A0568
 [label = "BinaryTreeNode(ok) 
+NodeValue (ok) [0x001A0574] :
 	type_	: 2
 	data_[int] : 0
-	data_[str] : x
+	data_[str] : y
 "];
-BinaryTreeNode0x009F0568
+BinaryTreeNode0x001A0568
 }

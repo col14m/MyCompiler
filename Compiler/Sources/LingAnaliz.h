@@ -15,9 +15,8 @@ public:
 	~LingAnaliz();
 	int ParseTextAndConvertToArrayNodes();
 	bool HaveVariableInDeclaration(char *str);
-	
 	int Dump();
-	
+	std::vector <BinaryTreeNode> &GetArrayNodes();
 
 private:
 	char *ParseVariables();
@@ -232,6 +231,10 @@ inline int LingAnaliz::Dump()
 	}
 	printf("}\n");
 	return 0;
+}
+std::vector<BinaryTreeNode>& LingAnaliz::GetArrayNodes()
+{
+	return arrayNodes_;
 }
 inline int LingAnaliz::DumpVariables()
 {

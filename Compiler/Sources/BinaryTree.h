@@ -73,11 +73,13 @@ BinaryTreeNode::BinaryTreeNode(const BinaryTreeNode &node) :
 
 BinaryTreeNode::~BinaryTreeNode()
 {
+	/*
 	delete leftNode_;
 	leftNode_ = NULL;
 
 	delete rightNode_;
 	rightNode_ = NULL;
+*/
 }
 
 bool BinaryTreeNode::Ok() const
@@ -137,7 +139,7 @@ void BinaryTreeNode::Dump(FILE *log) const
 	//fprintf(log, "[0x%p] data_ : \n", &data_);
 	data_.Dump(log);
 	//fprintf(log, "[0x%p] leftNode\n", leftNode_);
-//	fprintf(log, "\"", rightNode_);
+	fprintf(log, "\"");
 	fprintf(log, "%s];\n", Ok() ? "" : ", color = \"red\", fillcolor = \"#ff7d7d\"");
 
 	fprintf(log, "BinaryTreeNode0x%p\n", this);
