@@ -54,7 +54,7 @@ int main()
 	//LingAnaliz t;
 	//t.ParseTextAndConvertToArrayNodes(test);
 	//printf("%s", FileInBuf(".\\Logs\\test.txt"));
-	LingAnaliz analiz("var a b c xyi ; ( a + 500 * 200 )");
+	LingAnaliz analiz("var a b c xyi ;  while ( a + b ) { xyi = c + b ; while ( a + b ) { xyi = c + b ;  } ; } ;");
 	analiz.ParseTextAndConvertToArrayNodes();
 	//analiz.GetArrayNodes().push_back(Node (NodeValue(NUMBER, 345)));
 	//analiz.Dump();

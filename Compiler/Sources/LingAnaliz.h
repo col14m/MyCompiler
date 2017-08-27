@@ -94,6 +94,30 @@ bool IsComparison(char *str)
 	}
 }
 
+bool IsBraket(char *str)
+{
+	if ((str[0] == '(' || str[0] == ')') && str[1] == '\0')
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool IsBrace(char *str)
+{
+	if ((str[0] == '{' || str[0] == '}') && str[1] == '\0')
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 int LingAnaliz::ParseTextAndConvertToArrayNodes()
 {
 	char *pch = NULL;
@@ -119,14 +143,19 @@ int LingAnaliz::ParseTextAndConvertToArrayNodes()
 			BinaryTreeNode tmp(NodeValue(MUL_DIV, pch));
 			arrayNodes_.push_back(tmp);
 		}
-		else if (!strcmp (pch, "(") || !strcmp(pch, ")"))
+		else if (IsBraket(pch))
 		{
 			BinaryTreeNode tmp(NodeValue(BRACKET, pch));
 			arrayNodes_.push_back(tmp);
 		}
+		else if (IsBrace(pch))
+		{
+			BinaryTreeNode tmp(NodeValue(BRACE, pch));
+			arrayNodes_.push_back(tmp);
+		}
 		else if (!strcmp(pch, "="))
 		{
-			BinaryTreeNode tmp(NodeValue(EQUAL, pch));
+			BinaryTreeNode tmp(NodeValue(ASSIGN, pch));
 			arrayNodes_.push_back(tmp);
 		}
 		else if (IsComparison(pch))

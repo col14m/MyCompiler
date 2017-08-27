@@ -7,9 +7,6 @@
 #define FUNC_HI printf("\nHi, I am %s!\n", __func__);
 #define FUNC_BYE printf("\nBye from %s!\n", __func__);
 
-
-
-
 #else //not DEBUG
 #define FUNC_HI
 #define FUNC_BYE
@@ -30,11 +27,13 @@ private:
 	BinaryTreeNode *root_;
 	std::vector <BinaryTreeNode> arrayTokens_;
 	
-	BinaryTreeNode *GetN();
-	BinaryTreeNode *GetT();
-	BinaryTreeNode *GetE();
-	BinaryTreeNode *GetP();
-	
+	BinaryTreeNode *GetN();//number
+	BinaryTreeNode *GetM_D();//mul or div
+	BinaryTreeNode *GetP_M();//plus or minus
+	BinaryTreeNode *GetBR();//bracket
+	BinaryTreeNode *GetAs();//assign
+	BinaryTreeNode *GetCom();//comma (;)
+	BinaryTreeNode *GetWhIf();//while if 
 };
 
 SyntaxAnaliz::SyntaxAnaliz() :
@@ -51,6 +50,7 @@ void SyntaxAnaliz::SetArrayTokens(std::vector<BinaryTreeNode>& arrayNodes)
 {
 	arrayTokens_ = arrayNodes;
 }
+
  int SyntaxAnaliz::DumpTokens()
 {
 	
@@ -64,22 +64,24 @@ void SyntaxAnaliz::SetArrayTokens(std::vector<BinaryTreeNode>& arrayNodes)
 	return 0;
 }
 
-void SyntaxAnaliz::Get0()
- {
-	 root_ = GetE();
- }
-
 BinaryTreeNode *SyntaxAnaliz::GetRoot()
  {
 	return root_;
  }
 
+
+void SyntaxAnaliz::Get0()
+{
+	root_ = GetCom();
+}
+
  BinaryTreeNode *SyntaxAnaliz::GetN()
  {
 	 FUNC_HI
 
-	 assert(currentPosition_ <= arrayTokens_.size());
-	 if (arrayTokens_[currentPosition_].GetValue().type_ == NUMBER || arrayTokens_[currentPosition_].GetValue().type_ == VARIABLE)
+	 //assert(currentPosition_ <= arrayTokens_.size());
+	 if (currentPosition_ < arrayTokens_.size() && 
+				(arrayTokens_[currentPosition_].GetValue().type_ == NUMBER || arrayTokens_[currentPosition_].GetValue().type_ == VARIABLE))
 	 {
 		 FUNC_BYE
 		 return &arrayTokens_[currentPosition_++];
@@ -91,10 +93,10 @@ BinaryTreeNode *SyntaxAnaliz::GetRoot()
 	 }
 }
 
- BinaryTreeNode *SyntaxAnaliz::GetE()
+ BinaryTreeNode *SyntaxAnaliz::GetP_M()
  {
 	 FUNC_HI
-	 BinaryTreeNode *leftChild = GetT();
+	 BinaryTreeNode *leftChild = GetM_D();
 	 BinaryTreeNode *rightChild = NULL;
 	 BinaryTreeNode *parent = NULL;
 	 
@@ -102,7 +104,7 @@ BinaryTreeNode *SyntaxAnaliz::GetRoot()
 	 {
 		
 		 parent = &arrayTokens_[currentPosition_++];
-		 rightChild = GetT();
+		 rightChild = GetM_D();
 		 parent->InsertLeft(leftChild);
 		 parent->InsertRight(rightChild);
 		 leftChild = parent;
@@ -112,10 +114,11 @@ BinaryTreeNode *SyntaxAnaliz::GetRoot()
 	 FUNC_BYE
 	 return leftChild;
  }
- BinaryTreeNode *SyntaxAnaliz::GetT()
+ 
+ BinaryTreeNode *SyntaxAnaliz::GetM_D()
  {
 	 FUNC_HI
-	 BinaryTreeNode *leftChild = GetP();
+	 BinaryTreeNode *leftChild = GetBR();
 	 BinaryTreeNode *rightChild = NULL;
 	 BinaryTreeNode *parent = NULL;
 
@@ -123,7 +126,7 @@ BinaryTreeNode *SyntaxAnaliz::GetRoot()
 	 {
 
 		 parent = &arrayTokens_[currentPosition_++];
-		 rightChild = GetP();
+		 rightChild = GetBR();
 		 parent->InsertLeft(leftChild);
 		 parent->InsertRight(rightChild);
 		 leftChild = parent;
@@ -133,7 +136,8 @@ BinaryTreeNode *SyntaxAnaliz::GetRoot()
 	 FUNC_BYE
 	 return leftChild;
  }
- BinaryTreeNode *SyntaxAnaliz::GetP()
+ 
+ BinaryTreeNode *SyntaxAnaliz::GetBR()
  {
 	 FUNC_HI
 	 BinaryTreeNode *parent = NULL;
@@ -141,7 +145,9 @@ BinaryTreeNode *SyntaxAnaliz::GetRoot()
 	if ((currentPosition_ < arrayTokens_.size()) && arrayTokens_[currentPosition_].GetValue().type_ == BRACKET)
 	{
 		currentPosition_++;
-		parent = GetE();
+		parent = GetP_M();
+		arrayTokens_[currentPosition_].Dump();
+		printf("cur %lu\n size %lu\n", currentPosition_, arrayTokens_.size());
 		assert(arrayTokens_[currentPosition_].GetValue().type_ == BRACKET); //переделать
 		currentPosition_++;
 		FUNC_BYE
@@ -151,7 +157,90 @@ BinaryTreeNode *SyntaxAnaliz::GetRoot()
 	}
 	else
 	{
+		BinaryTreeNode *node = GetN();
 		FUNC_BYE
-		return GetN();
+		return node;
+		
 	}
  }
+
+ BinaryTreeNode *SyntaxAnaliz::GetAs()//assign
+ {
+	 FUNC_HI
+	 BinaryTreeNode *leftChild = GetP_M();
+	 BinaryTreeNode *rightChild = NULL;
+	 BinaryTreeNode *parent = NULL;
+
+	 while ((currentPosition_ < arrayTokens_.size()) && arrayTokens_[currentPosition_].GetValue().type_ == ASSIGN)
+	 {
+
+		 parent = &arrayTokens_[currentPosition_++];
+		 rightChild = GetP_M();
+		 parent->InsertLeft(leftChild);
+		 parent->InsertRight(rightChild);
+		 leftChild = parent;
+		 //printf("cur %lu\n size %lu\n", currentPosition_, arrayTokens_.size());
+		 //assert(currentPosition_ < arrayTokens_.size());
+	 }
+	 FUNC_BYE
+		 return leftChild;
+ }
+ 
+BinaryTreeNode *SyntaxAnaliz::GetCom()//comma (;)
+ {
+	 FUNC_HI
+	 BinaryTreeNode *leftChild = GetWhIf();
+	 BinaryTreeNode *rightChild = NULL;
+	 BinaryTreeNode *parent = NULL;
+
+	 while ((currentPosition_ < arrayTokens_.size()) && arrayTokens_[currentPosition_].GetValue().type_ == COMMA)
+	 {
+
+		 parent = &arrayTokens_[currentPosition_++];
+		 printf(" comma cur %lu\n size %lu\n", currentPosition_, arrayTokens_.size());
+		 rightChild = GetCom();
+		 parent->InsertLeft(leftChild);
+		 parent->InsertRight(rightChild);
+		 leftChild = parent;
+		 //printf("cur %lu\n size %lu\n", currentPosition_, arrayTokens_.size());
+		 //assert(currentPosition_ < arrayTokens_.size());
+	 }
+         FUNC_BYE
+		 return leftChild;
+ }
+
+BinaryTreeNode *SyntaxAnaliz::GetWhIf()
+{
+	FUNC_HI
+	BinaryTreeNode *parent = NULL;
+	BinaryTreeNode *leftChild = NULL;
+	BinaryTreeNode *rightChild = NULL;
+
+
+
+	if ((currentPosition_ < arrayTokens_.size()) && arrayTokens_[currentPosition_].GetValue().type_ == WHILE)
+	{
+		parent = &arrayTokens_[currentPosition_++];
+		leftChild = GetBR();
+		//assert(arrayTokens_[currentPosition_].GetValue().type_ == BRACKET);
+		currentPosition_++;
+		rightChild = GetCom();
+		//arrayTokens_[currentPosition_].Dump();
+		assert(arrayTokens_[currentPosition_].GetValue().type_ == BRACE); //переделать
+		currentPosition_++;
+		parent->InsertLeft(leftChild);
+		parent->InsertRight(rightChild);
+		FUNC_BYE
+		//printf("cur %lu\n size %lu\n", currentPosition_, arrayTokens_.size());
+		return parent;
+		
+		//assert(currentPosition_ < arrayTokens_.size());
+	}
+	else
+	{
+		
+		BinaryTreeNode *node = GetAs();
+		FUNC_BYE
+		return node;
+	}
+}
