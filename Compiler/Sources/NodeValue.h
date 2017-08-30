@@ -42,6 +42,7 @@ enum Type
 	FUNC,
 	RET,
 	COMMA,
+	COMMA_LOWER,
 	UNKNOWN,
 	ERRORS
 };

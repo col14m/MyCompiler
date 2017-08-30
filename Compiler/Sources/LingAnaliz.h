@@ -23,6 +23,7 @@ private:
 	int DumpVariables();
 	std::vector <BinaryTreeNode> arrayNodes_;
 	std::vector <BinaryTreeNode> arrayVariables_;
+	std::vector <BinaryTreeNode> arrayFunctions_;
 	char *copyText_;
 
 };
@@ -180,6 +181,7 @@ int LingAnaliz::ParseTextAndConvertToArrayNodes()
 		}
 		else if (!strcmp(pch, "func"))
 		{
+			pch = PARSE_ON_TOKENS(NULL); //strtok(NULL, " \n\t")
 			BinaryTreeNode tmp(NodeValue(FUNC, pch));
 			arrayNodes_.push_back(tmp);
 		}
@@ -191,6 +193,12 @@ int LingAnaliz::ParseTextAndConvertToArrayNodes()
 		else if (!strcmp(pch, ";"))
 		{
 			BinaryTreeNode tmp(NodeValue(COMMA, pch));
+			arrayNodes_.push_back(tmp);
+			arrayFunctions_.push_back(tmp);
+		}
+		else if (!strcmp(pch, ","))
+		{
+			BinaryTreeNode tmp(NodeValue(COMMA_LOWER, pch));
 			arrayNodes_.push_back(tmp);
 		}
 		else if (HaveVariableInDeclaration(pch))

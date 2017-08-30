@@ -34,6 +34,8 @@ private:
 	BinaryTreeNode *GetAs();//assign
 	BinaryTreeNode *GetCom();//comma (;)
 	BinaryTreeNode *GetWhIf();//while if 
+	BinaryTreeNode *GetFunc();//func 
+
 };
 
 SyntaxAnaliz::SyntaxAnaliz() :
@@ -189,7 +191,7 @@ void SyntaxAnaliz::Get0()
 BinaryTreeNode *SyntaxAnaliz::GetCom()//comma (;)
  {
 	 FUNC_HI
-	 BinaryTreeNode *leftChild = GetWhIf();
+	 BinaryTreeNode *leftChild = GetFunc();
 	 BinaryTreeNode *rightChild = NULL;
 	 BinaryTreeNode *parent = NULL;
 
@@ -240,6 +242,78 @@ BinaryTreeNode *SyntaxAnaliz::GetWhIf()
 	{
 		
 		BinaryTreeNode *node = GetAs();
+		FUNC_BYE
+		return node;
+	}
+}
+
+/*BinaryTreeNode *SyntaxAnaliz::GetFunc()
+{
+	FUNC_HI
+	BinaryTreeNode *leftChild = NULL;
+	BinaryTreeNode *rightChild = NULL;
+	BinaryTreeNode *parent = NULL;
+	if ((currentPosition_ < arrayTokens_.size()) && arrayTokens_[currentPosition_].GetValue().type_ == FUNC)
+	{
+
+
+		while ((currentPosition_ < arrayTokens_.size()) && arrayTokens_[currentPosition_].GetValue().type_ == FUNC)
+		{
+
+			parent = &arrayTokens_[currentPosition_++];
+			//printf(" comma cur %lu\n size %lu\n", currentPosition_, arrayTokens_.size());
+			leftChild = GetBR();
+			currentPosition_++;
+			rightChild = GetCom();
+			assert(arrayTokens_[currentPosition_].GetValue().type_ == BRACE); //переделать
+			currentPosition_++;
+			parent->InsertLeft(leftChild);
+			parent->InsertRight(rightChild);
+			leftChild = parent;
+			//printf("cur %lu\n size %lu\n", currentPosition_, arrayTokens_.size());
+			//assert(currentPosition_ < arrayTokens_.size());
+		}
+		FUNC_BYE
+		return leftChild;
+	}
+	else
+	{
+		FUNC_BYE
+		return GetWhIf();
+	}
+		
+}*/
+BinaryTreeNode *SyntaxAnaliz::GetFunc()
+{
+	FUNC_HI
+	BinaryTreeNode *parent = NULL;
+	BinaryTreeNode *leftChild = NULL;
+	BinaryTreeNode *rightChild = NULL;
+
+
+
+	if ((currentPosition_ < arrayTokens_.size()) && arrayTokens_[currentPosition_].GetValue().type_ == FUNC)
+	{
+		parent = &arrayTokens_[currentPosition_++];
+		leftChild = GetBR();
+		//assert(arrayTokens_[currentPosition_].GetValue().type_ == BRACKET);
+		currentPosition_++;
+		rightChild = GetCom();
+		//arrayTokens_[currentPosition_].Dump();
+		assert(arrayTokens_[currentPosition_].GetValue().type_ == BRACE); //переделать
+		currentPosition_++;
+		parent->InsertLeft(leftChild);
+		parent->InsertRight(rightChild);
+		FUNC_BYE
+			//printf("cur %lu\n size %lu\n", currentPosition_, arrayTokens_.size());
+		return parent;
+
+		//assert(currentPosition_ < arrayTokens_.size());
+	}
+	else
+	{
+
+		BinaryTreeNode *node = GetWhIf();
 		FUNC_BYE
 		return node;
 	}

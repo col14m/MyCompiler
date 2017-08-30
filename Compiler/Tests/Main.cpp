@@ -54,7 +54,7 @@ int main()
 	//LingAnaliz t;
 	//t.ParseTextAndConvertToArrayNodes(test);
 	//printf("%s", FileInBuf(".\\Logs\\test.txt"));
-	LingAnaliz analiz("var a b c xyi ;  while ( a + b ) { xyi = c + b ; while ( a + b ) { xyi = c + b ;  } ; } ;");
+	LingAnaliz analiz("var a b c xyi ; func yes ( a + b ) { while ( a + b ) { a = b ; } ; } ; func yes ( a + b ) { while ( a + b ) { a = b ; } ; } ;");
 	analiz.ParseTextAndConvertToArrayNodes();
 	//analiz.GetArrayNodes().push_back(Node (NodeValue(NUMBER, 345)));
 	//analiz.Dump();
